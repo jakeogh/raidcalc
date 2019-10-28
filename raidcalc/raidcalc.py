@@ -97,7 +97,7 @@ def define(device_size_tb, device_count):
 #@processor
 def group(results, devices_per_group):
     for result in results:
-        #ic(result)
+        ic(result)
         dev_count = len(result)
         if not dev_count % devices_per_group == 0 or devices_per_group > dev_count / 2:
             msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
@@ -112,7 +112,7 @@ def group(results, devices_per_group):
 @processor
 def mirror(results, devices_per_group):
     for result in results:
-        result = group(result, devices_per_group)
+        result = list(group(result, devices_per_group))
         ic(result)
         mirrored = [group[0] for group in result]
         ic(mirrored)
