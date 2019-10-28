@@ -98,7 +98,7 @@ def define(device_size_tb, device_count):
 def group(togroup, devices_per_group):
     ic(togroup)
     dev_count = len(togroup)
-    if not dev_count % devices_per_group == 0 or devices_per_group > dev_count / 2:
+    if not dev_count % devices_per_group == 0 or devices_per_group > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
     grouped = list(partition(devices_per_group, togroup))
