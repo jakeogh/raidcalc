@@ -112,8 +112,8 @@ def group(togroup, devices_per_group):
 def mirror(results, devices_per_group):
     for result in results:
         print(result)
-        result = tuple(group(result, devices_per_group))
-        ic(result)
+        groups_to_mirror = group(result, devices_per_group)
+        ic(groups_to_mirror)
         mirrored = [group[0] for group in result]
         ic(mirrored)
         yield mirrored
