@@ -144,7 +144,11 @@ def raid(toraid, group_size, level):
 @processor
 def mirror(results, group_size):
     for result in results:
-        mirrored = raid(toraid=result, group_size=group_size, level="mirror")
+        try:
+            mirrored = raid(toraid=result, group_size=group_size, level="mirror")
+        except ValueError as e:
+            print(Fore.RED + e)
+            quit(1)
         ic(mirrored)
         yield mirrored
 
