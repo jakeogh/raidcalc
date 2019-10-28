@@ -81,7 +81,7 @@ def generator(f):
 @cli.command('define')
 @click.argument('device-size-TB', required=True, nargs=1, type=int)
 @click.argument('device-count', required=True, nargs=1, type=int)
-@click.option("--verbose")
+@click.option("--verbose", is_flag=True)
 @generator
 def define(device_size_tb, device_count, verbose):
     if verbose:
