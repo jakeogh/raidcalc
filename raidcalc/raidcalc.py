@@ -142,7 +142,7 @@ def z1(results):
 def z2(results):
     for result in results:
         #ic(result)
-        raidz2 = [sum(group[:-2]) for group in result]
+        raidz2 = tuple([sum(group[:-2]) for group in result])
         ic(raidz2)
         yield raidz2
 
