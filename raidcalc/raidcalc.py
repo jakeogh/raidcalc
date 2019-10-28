@@ -98,13 +98,13 @@ def define(device_size_tb, device_count):
 #@processor
 def group(togroup, group_size):
     dev_count = len(togroup)
-    if not dev_count % group_size == 0 or group_size > dev_count:
-        msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
-        raise ValueError(msg)
     if group_size == "all":
         group_size = dev_count
     else:
         group_size = int(group_size)
+    if not dev_count % group_size == 0 or group_size > dev_count:
+        msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
+        raise ValueError(msg)
     grouped = list(partition(group_size, togroup))
     return grouped
 
