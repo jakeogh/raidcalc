@@ -99,7 +99,7 @@ def group(results, devices_per_group):
     for result in results:
         ic(result)
         dev_count = len(result)
-        if not dev_count % devices_per_group == 0 or devices_per_group >= dev_count / 2:
+        if not dev_count % devices_per_group == 0 or devices_per_group > dev_count / 2:
             msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
             raise ValueError(msg)
         new_result = list(partition(devices_per_group, result))
