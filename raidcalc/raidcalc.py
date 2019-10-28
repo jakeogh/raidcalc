@@ -2,6 +2,7 @@
 
 import shutil
 import pprint
+import math
 from functools import update_wrapper
 from icecream import ic
 import click
@@ -16,6 +17,16 @@ PP = pprint.PrettyPrinter(indent=4)
 CONTEXT_SETTINGS = \
     dict(help_option_names=['--help'],
          terminal_width=shutil.get_terminal_size((80, 20)).columns)
+
+
+#https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
+def divisors(n):
+    divs = [1]
+    for i in range(2,int(math.sqrt(n))+1):
+        if n%i == 0:
+            divs.extend([i,int(n/i)])
+    divs.extend([n])
+    return list(set(divs))
 
 
 @click.group(chain=True)
@@ -79,14 +90,17 @@ def define(device_size_tb, device_count):
         yield array
 
 
-@cli.command('groups')
-@click.argument("number_of_groups", nargs=1, required=True, type=int)
+@cli.command('group')
+@click.argument("devices_per_group", nargs=1, required=True, type=int)
 @processor
-def groups(results, number_of_groups):
+def group(results, devices_per_group):
     for result in results:
         ic(result)
-        assert len(result) % number_of_groups == 0
-        new_result = list(partition(number_of_groups, result))
+        dev_count = len(result)
+        if not dev_count % devices_per_group == 0:
+            msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count))
+            raise ValueError(msg)
+        new_result = list(partition(devices_per_group, result))
         ic(new_result)
         yield new_result
 
