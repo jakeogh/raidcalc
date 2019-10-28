@@ -34,6 +34,7 @@ def divisors(n):
 def cli(ctx):
     pass
 
+
 @cli.resultcallback()
 def process_commands(processors):
     """This result callback is invoked with an iterable of all the chained
@@ -124,11 +125,6 @@ def raid(toraid, group_size, level):
 @processor
 def mirror(results, group_size):
     for result in results:
-        #print(result)
-
-        #groups_to_mirror = group(result, group_size)
-        #ic(groups_to_mirror)
-        #mirrored = [group[0] for group in groups_to_mirror]
         mirrored = raid(toraid=result, group_size=group_size, level="mirror")
         ic(mirrored)
         yield mirrored
@@ -138,10 +134,13 @@ def mirror(results, group_size):
 @processor
 def stripe(results):
     for result in results:
-        #ic(result)
-        striped = [sum(group) for group in result]
+        striped = raid(toraid=result, group_size=group_size, level="stripe")
         ic(striped)
         yield striped
+        ##ic(result)
+        #striped = [sum(group) for group in result]
+        #ic(striped)
+        #yield striped
 
 
 @cli.command('z1')
