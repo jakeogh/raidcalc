@@ -92,9 +92,9 @@ def define(device_size_tb, device_count):
         yield define
 
 
-@cli.command('group')
-@click.argument("devices_per_group", nargs=1, required=True, type=int)
-@processor
+#@cli.command('group')
+#@click.argument("devices_per_group", nargs=1, required=True, type=int)
+#@processor
 def group(results, devices_per_group):
     for result in results:
         #ic(result)
@@ -108,10 +108,12 @@ def group(results, devices_per_group):
 
 
 @cli.command('mirror')
+@click.argument("devices_per_group", nargs=1, required=True, type=int)
 @processor
-def mirror(results):
+def mirror(results, devices_per_group):
     for result in results:
-        #ic(result)
+        result = group(result, devices_per_group)
+        ic(result)
         mirrored = [group[0] for group in result]
         ic(mirrored)
         yield mirrored
