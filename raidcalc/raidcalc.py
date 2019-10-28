@@ -30,8 +30,9 @@ def divisors(n):
 
 
 @click.group(chain=True)
+@click.option("--verbose")
 @click.pass_context
-def cli(ctx):
+def cli(ctx, verbose):
     pass
 
 
@@ -93,9 +94,6 @@ def define(device_size_tb, device_count):
         yield define
 
 
-#@cli.command('group')
-#@click.argument("group_size", nargs=1, required=True, type=int)
-#@processor
 def group(togroup, group_size):
     dev_count = len(togroup)
     if group_size == "all":
