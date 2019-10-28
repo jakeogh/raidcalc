@@ -112,7 +112,7 @@ def group(togroup, devices_per_group):
 def mirror(results, devices_per_group):
     for result in results:
         print(result)
-        result = list(group(result, devices_per_group))
+        result = group(result, devices_per_group)
         ic(result)
         mirrored = [group[0] for group in result]
         ic(mirrored)
