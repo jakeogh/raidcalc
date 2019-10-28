@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import fastentrypoints
+#import fastentrypoints
 from setuptools import find_packages, setup
 if not sys.version_info[0] == 3:
     sys.exit("Python 3 is required. Use: \'python3 setup.py install\'")
