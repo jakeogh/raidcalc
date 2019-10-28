@@ -84,6 +84,8 @@ def generator(f):
 @click.argument('device-count', required=True, nargs=1, type=int)
 @generator
 def define(device_size_tb, device_count):
+    if not device_count % 2 == 0:
+        raise ValueError("device_count must be even")
     result = [device_size_tb] * device_count
     for array in [result]:
         ic(array)
@@ -97,8 +99,8 @@ def group(results, devices_per_group):
     for result in results:
         ic(result)
         dev_count = len(result)
-        if not dev_count % devices_per_group == 0:
-            msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count))
+        if not dev_count % devices_per_group == 0 or devices_per_group >= dev_count / 2:
+            msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
             raise ValueError(msg)
         new_result = list(partition(devices_per_group, result))
         ic(new_result)
