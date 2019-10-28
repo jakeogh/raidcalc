@@ -8,9 +8,9 @@ import click
 from colorama import Fore
 from icecream import ic
 #ic.configureOutput(includeContext=True)
-ic.lineWrapWidth, _ = get_terminal_size((80, 20))
+#ic.lineWrapWidth, _ = get_terminal_size((80, 20))
+ic.lineWrapWidth, _ = get_terminal_size()
 #ic.disable()
-
 
 try:
     from cytoolz.itertoolz import partition
