@@ -4,7 +4,11 @@ import shutil
 import pprint
 from functools import update_wrapper
 import click
-from cytoolz.itertoolz import partition
+try:
+    from cytoolz.itertoolz import partition
+except ModuleNotFoundError:
+    from cytoolz.itertoolz import partition
+
 
 PP = pprint.PrettyPrinter(indent=4)
 
