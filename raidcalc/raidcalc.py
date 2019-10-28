@@ -97,26 +97,29 @@ def define(device_size_tb, device_count):
 #@click.argument("group_size", nargs=1, required=True, type=int)
 #@processor
 def group(togroup, group_size):
-    #ic(togroup)
     dev_count = len(togroup)
     if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
     grouped = list(partition(group_size, togroup))
-    #ic(grouped)
     return grouped
 
 
 def raid(toraid, group_size, level):
-    groups = group(toraid, group_size)
-    ic(groups)
+    grouped = group(toraid, group_size)
+    ic(grouped)
     if level == "mirror":
-        raided = [group[0] for group in groups]
+        raided = [group[0] for group in grouped]
     elif level == "stripe":
-        raided = [sum(group) for group in groups]
+        raided = [sum(group) for group in grouped]
+    elif level == "z1":
+        raided = [sum(group[:-1]) for group in grouped]
+    elif level == "z2":
+        raided = [sum(group[:-2]) for group in grouped]
+    elif level == "z3":
+        raided = [sum(group[:-3]) for group in grouped]
     else:
         raise ValueError("unknown RAID level:", level)
-    #ic(raided)
     return raided
 
 
@@ -138,38 +141,34 @@ def stripe(results, group_size):
         striped = raid(toraid=result, group_size=group_size, level="stripe")
         ic(striped)
         yield striped
-        ##ic(result)
-        #striped = [sum(group) for group in result]
-        #ic(striped)
-        #yield striped
 
 
 @cli.command('z1')
+@click.argument("group_size", nargs=1, required=True, type=int)
 @processor
-def z1(results):
+def z1(results, group_size):
     for result in results:
-        #ic(result)
-        raidz1 = [sum(group[:-1]) for group in result]
+        raidz1 = raid(toraid=result, group_size=group_size, level="z1")
         ic(raidz1)
         yield raidz1
 
 
 @cli.command('z2')
+@click.argument("group_size", nargs=1, required=True, type=int)
 @processor
-def z2(results):
+def z2(results, group_size):
     for result in results:
-        #ic(result)
-        raidz2 = tuple([sum(group[:-2]) for group in result])
+        raidz2 = raid(toraid=result, group_size=group_size, level="z2")
         ic(raidz2)
         yield raidz2
 
 
 @cli.command('z3')
+@click.argument("group_size", nargs=1, required=True, type=int)
 @processor
-def z3(results):
+def z3(results, group_size):
     for result in results:
-        #ic(result)
-        raidz3 = [sum(group[:-2]) for group in result]
+        raidz3 = raid(toraid=result, group_size=group_size, level="z3")
         ic(raidz3)
         yield raidz3
 
