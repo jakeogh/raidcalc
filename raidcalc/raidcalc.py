@@ -75,7 +75,7 @@ def define(device_size_TB, device_count):
 @cli.argument("number_of_groups", nargs=1, required=True, type=int)
 @processor
 def group(results, number_of_groups):
-    return list(partition(3, results))
+    return list(partition(number_of_groups, results))
 
 
 @cli.command('show')
