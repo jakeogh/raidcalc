@@ -85,7 +85,8 @@ def define(device_size_tb, device_count):
 def group(results, number_of_groups):
     for result in results:
         ic(result)
-        new_result = list(partition(number_of_groups, results))
+        assert len(result) % number_of_groups == 0
+        new_result = list(partition(number_of_groups, result))
         ic(new_result)
         yield new_result
 
