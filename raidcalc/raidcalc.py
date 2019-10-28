@@ -109,11 +109,14 @@ def group(togroup, group_size):
 
 
 def raid(toraid, group_size, level):
+    dev_count = len(toraid)
     grouped = group(toraid, group_size)
     global VERBOSE
     if VERBOSE:
         ic(grouped)
     if level == "mirror":
+        if dev_count < 2:
+            raise ValueError("mirror requires >= 2 devices")
         raided = [group[0] for group in grouped]
     elif level == "stripe":
         raided = [sum(group) for group in grouped]
