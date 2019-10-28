@@ -74,8 +74,8 @@ def generator(f):
 @generator
 def define(device_size_tb, device_count):
     result = [device_size_tb] * device_count
-    ic(result)
     for array in [result]:
+        ic(array)
         yield array
 
 
@@ -86,6 +86,7 @@ def group(results, number_of_groups):
     for result in results:
         ic(result)
         new_result = list(partition(number_of_groups, results))
+        ic(new_result)
         yield new_result
 
 
@@ -94,5 +95,6 @@ def group(results, number_of_groups):
 def show(results):
     for result in results:
         #ic(result)
-        ic()
+        ic(result)
+    quit(1)
     #PP.pprint(results)
