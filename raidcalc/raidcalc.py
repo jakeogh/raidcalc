@@ -3,6 +3,7 @@
 import shutil
 import pprint
 from functools import update_wrapper
+from icecream import ic
 import click
 try:
     from cytoolz.itertoolz import partition
@@ -85,4 +86,5 @@ def group(results, number_of_groups):
 @cli.command('show')
 @processor
 def show(results):
-    PP.pprint(results)
+    ic(results)
+    #PP.pprint(results)
