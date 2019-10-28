@@ -87,9 +87,9 @@ def define(device_size_tb, device_count):
     if not device_count % 2 == 0:
         raise ValueError("device_count must be even")
     result = [device_size_tb] * device_count
-    for array in [result]:
-        ic(array)
-        yield array
+    for define in [result]:
+        ic(define)
+        yield define
 
 
 @cli.command('group')
@@ -97,70 +97,70 @@ def define(device_size_tb, device_count):
 @processor
 def group(results, devices_per_group):
     for result in results:
-        ic(result)
+        #ic(result)
         dev_count = len(result)
         if not dev_count % devices_per_group == 0 or devices_per_group > dev_count / 2:
             msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
             raise ValueError(msg)
-        new_result = list(partition(devices_per_group, result))
-        ic(new_result)
-        yield new_result
+        grouped = list(partition(devices_per_group, result))
+        ic(grouped)
+        yield grouped
 
 
 @cli.command('mirror')
 @processor
 def mirror(results):
     for result in results:
-        ic(result)
-        new_result = [group[0] for group in result]
-        ic(new_result)
-        yield new_result
+        #ic(result)
+        mirrored = [group[0] for group in result]
+        ic(mirrored)
+        yield mirrored
 
 
 @cli.command('stripe')
 @processor
 def stripe(results):
     for result in results:
-        ic(result)
-        new_result = [sum(group) for group in result]
-        ic(new_result)
-        yield new_result
+        #ic(result)
+        striped = [sum(group) for group in result]
+        ic(striped)
+        yield striped
 
 
 @cli.command('z1')
 @processor
 def z1(results):
     for result in results:
-        ic(result)
-        new_result = [sum(group[:-1]) for group in result]
-        ic(new_result)
-        yield new_result
+        #ic(result)
+        raidz1 = [sum(group[:-1]) for group in result]
+        ic(raidz1)
+        yield raidz1
 
 
 @cli.command('z2')
 @processor
 def z2(results):
     for result in results:
-        ic(result)
-        new_result = [sum(group[:-2]) for group in result]
-        ic(new_result)
-        yield new_result
+        #ic(result)
+        raidz2 = [sum(group[:-2]) for group in result]
+        ic(raidz2)
+        yield raidz2
 
 
 @cli.command('z3')
 @processor
 def z3(results):
     for result in results:
-        ic(result)
-        new_result = [sum(group[:-2]) for group in result]
-        ic(new_result)
-        yield new_result
+        #ic(result)
+        raidz3 = [sum(group[:-2]) for group in result]
+        ic(raidz3)
+        yield raidz3
 
 
 @cli.command('show')
 @processor
 def show(results):
-    for result in results:
+    for shown in results:
         #ic(result)
-        ic(result)
-        yield result
+        ic(shown)
+        yield shown
