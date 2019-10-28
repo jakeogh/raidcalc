@@ -39,8 +39,7 @@ def process_commands(processors):
 
 
 def processor(f):
-    """Helper decorator to rewrite a function so that it returns another
-    function from it.
+    """Helper decorator to rewrite a function so that it returns another function from it.
     From: https://github.com/pallets/click/blob/master/examples/imagepipe/imagepipe.py
     """
     def new_func(*args, **kwargs):
