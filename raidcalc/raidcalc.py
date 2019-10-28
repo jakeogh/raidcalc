@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
-#import shutil
 import sys
 import math
 from functools import update_wrapper
-from icecream import ic
-from colorama import Fore
+from shutil import get_terminal_size
 import click
+from colorama import Fore
+from icecream import ic
+ic.configureOutput(includeContext=True)
+ic.lineWrapWidth, _ = get_terminal_size((80, 20))
+#ic.disable()
+
+
 try:
     from cytoolz.itertoolz import partition
 except ModuleNotFoundError:
     from cytoolz.itertoolz import partition
 
 VERBOSE = False
-
-#CONTEXT_SETTINGS = \
-#    dict(help_option_names=['--help'],
-#         terminal_width=shutil.get_terminal_size((80, 20)).columns)
 
 
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
