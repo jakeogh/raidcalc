@@ -75,7 +75,7 @@ def generator(f):
 def define(device_size_tb, device_count):
     result = [device_size_tb] * device_count
     ic(result)
-    return result
+    yield result
 
 
 @cli.command('group')
@@ -84,7 +84,7 @@ def define(device_size_tb, device_count):
 def group(results, number_of_groups):
     #ic(results)
     result = list(partition(number_of_groups, results))
-    return result
+    yield result
 
 
 @cli.command('show')
