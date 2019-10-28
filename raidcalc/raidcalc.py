@@ -79,10 +79,10 @@ def define(device_size_tb, device_count):
         yield array
 
 
-@cli.command('group')
+@cli.command('groups')
 @click.argument("number_of_groups", nargs=1, required=True, type=int)
 @processor
-def group(results, number_of_groups):
+def groups(results, number_of_groups):
     for result in results:
         ic(result)
         assert len(result) % number_of_groups == 0
