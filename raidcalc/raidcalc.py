@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import shutil
+#import shutil
+import sys
 import math
 from functools import update_wrapper
 from icecream import ic
@@ -12,9 +13,9 @@ except ModuleNotFoundError:
 
 VERBOSE = False
 
-CONTEXT_SETTINGS = \
-    dict(help_option_names=['--help'],
-         terminal_width=shutil.get_terminal_size((80, 20)).columns)
+#CONTEXT_SETTINGS = \
+#    dict(help_option_names=['--help'],
+#         terminal_width=shutil.get_terminal_size((80, 20)).columns)
 
 
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
@@ -87,8 +88,8 @@ def define(device_size_tb, device_count, verbose):
     if verbose:
         global VERBOSE
         VERBOSE = True
-    #if not device_count % 2 == 0:
-    #    raise ValueError("device_count must be even")
+    if not device_count % 2 == 0:
+        print("Note: device_count is not even.", file=sys.stderr)
     result = [device_size_tb] * device_count
     for define in [result]:
         ic(define)
