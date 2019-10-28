@@ -147,7 +147,7 @@ def mirror(results, group_size):
         try:
             mirrored = raid(toraid=result, group_size=group_size, level="mirror")
         except ValueError as e:
-            print(Fore.RED + e)
+            print(Fore.RED + str(e))
             quit(1)
         ic(mirrored)
         yield mirrored
