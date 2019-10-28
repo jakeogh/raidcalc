@@ -112,6 +112,7 @@ def group(results, devices_per_group):
 @processor
 def mirror(results, devices_per_group):
     for result in results:
+        print(result)
         result = list(group(result, devices_per_group))
         ic(result)
         mirrored = [group[0] for group in result]
