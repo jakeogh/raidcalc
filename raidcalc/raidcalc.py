@@ -96,13 +96,13 @@ def define(device_size_tb, device_count):
 #@click.argument("group_size", nargs=1, required=True, type=int)
 #@processor
 def group(togroup, group_size):
-    ic(togroup)
+    #ic(togroup)
     dev_count = len(togroup)
     if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
     grouped = list(partition(group_size, togroup))
-    ic(grouped)
+    #ic(grouped)
     return grouped
 
 
@@ -115,7 +115,7 @@ def raid(toraid, group_size, level):
         raided = [sum(group) for group in groups]
     else:
         raise ValueError("unknown RAID level:", level)
-    ic(raided)
+    #ic(raided)
     return raided
 
 
@@ -129,8 +129,8 @@ def mirror(results, group_size):
         #groups_to_mirror = group(result, group_size)
         #ic(groups_to_mirror)
         #mirrored = [group[0] for group in groups_to_mirror]
-        #ic(mirrored)
         mirrored = raid(toraid=result, group_size=group_size, level="mirror")
+        ic(mirrored)
         yield mirrored
 
 
