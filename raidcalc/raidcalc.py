@@ -101,6 +101,10 @@ def group(togroup, group_size):
     if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
+    if group_size == "all":
+        group_size = dev_count
+    else:
+        group_size = int(group_size)
     grouped = list(partition(group_size, togroup))
     return grouped
 
@@ -144,7 +148,7 @@ def stripe(results, group_size):
 
 
 @cli.command('z1')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True)
 @processor
 def z1(results, group_size):
     for result in results:
