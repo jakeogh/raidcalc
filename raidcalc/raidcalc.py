@@ -101,6 +101,46 @@ def mirror(results):
         yield new_result
 
 
+@cli.command('stripe')
+@processor
+def stripe(results):
+    for result in results:
+        ic(result)
+        new_result = [sum(group) for group in result]
+        ic(new_result)
+        yield new_result
+
+
+@cli.command('z1')
+@processor
+def z1(results):
+    for result in results:
+        ic(result)
+        new_result = [sum(group[:-1]) for group in result]
+        ic(new_result)
+        yield new_result
+
+
+@cli.command('z2')
+@processor
+def z2(results):
+    for result in results:
+        ic(result)
+        new_result = [sum(group[:-2]) for group in result]
+        ic(new_result)
+        yield new_result
+
+
+@cli.command('z3')
+@processor
+def z3(results):
+    for result in results:
+        ic(result)
+        new_result = [sum(group[:-2]) for group in result]
+        ic(new_result)
+        yield new_result
+
+
 @cli.command('show')
 @processor
 def show(results):
