@@ -93,29 +93,39 @@ def define(device_size_tb, device_count):
 
 
 #@cli.command('group')
-#@click.argument("devices_per_group", nargs=1, required=True, type=int)
+#@click.argument("group_size", nargs=1, required=True, type=int)
 #@processor
-def group(togroup, devices_per_group):
+def group(togroup, group_size):
     ic(togroup)
     dev_count = len(togroup)
-    if not dev_count % devices_per_group == 0 or devices_per_group > dev_count:
+    if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
-    grouped = list(partition(devices_per_group, togroup))
+    grouped = list(partition(group_size, togroup))
     ic(grouped)
     return grouped
 
 
+def raid(toraid, group_size, real_level):
+    groups_to_mirror = group(toraid, group_size)
+    ic(groups_to_mirror)
+    raided = [group[:real_level] for group in groups_to_mirror]
+    ic(raided)
+    return raided
+
+
 @cli.command('mirror')
-@click.argument("devices_per_group", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True, type=int)
 @processor
-def mirror(results, devices_per_group):
+def mirror(results, group_size):
     for result in results:
-        print(result)
-        groups_to_mirror = group(result, devices_per_group)
-        ic(groups_to_mirror)
-        mirrored = [group[0] for group in groups_to_mirror]
-        ic(mirrored)
+        #print(result)
+
+        #groups_to_mirror = group(result, group_size)
+        #ic(groups_to_mirror)
+        #mirrored = [group[0] for group in groups_to_mirror]
+        #ic(mirrored)
+        mirrored = raid(toraid=result, group_size=group_size, real_level=0)
         yield mirrored
 
 
