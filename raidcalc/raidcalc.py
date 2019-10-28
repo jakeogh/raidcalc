@@ -68,15 +68,15 @@ def generator(f):
 
 
 @cli.command('define')
-@click.option('--device-size-TB', required=True, nargs=1, type=int)
-@click.option('--device-count', required=True, nargs=1, type=int)
+@click.argument('device-size-TB', required=True, nargs=1, type=int)
+@click.argument('device-count', required=True, nargs=1, type=int)
 @generator
 def define(device_size_TB, device_count):
     return [device_size_TB] * device_count
 
 
 @cli.command('group')
-@cli.argument("number_of_groups", nargs=1, required=True, type=int)
+@click.argument("number_of_groups", nargs=1, required=True, type=int)
 @processor
 def group(results, number_of_groups):
     return list(partition(number_of_groups, results))
