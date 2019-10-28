@@ -16,12 +16,7 @@ CONTEXT_SETTINGS = \
 @click.group(chain=True)
 @click.pass_context
 def cli(ctx):
-    """Interface to fsindex.
-    Example:
-    \b
-        fsindex search --field file_name --term test.txt display
-    """
-
+    pass
 
 @cli.resultcallback()
 def process_commands(processors):
