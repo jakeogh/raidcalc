@@ -103,7 +103,7 @@ def group(togroup, devices_per_group):
         raise ValueError(msg)
     grouped = list(partition(devices_per_group, togroup))
     ic(grouped)
-    yield grouped
+    return grouped
 
 
 @cli.command('mirror')
