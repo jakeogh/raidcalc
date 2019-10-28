@@ -82,7 +82,7 @@ def define(device_size_tb, device_count):
 @click.argument("number_of_groups", nargs=1, required=True, type=int)
 @processor
 def group(results, number_of_groups):
-    ic(results)
+    #ic(results)
     result = list(partition(number_of_groups, results))
     return result
 
@@ -90,5 +90,6 @@ def group(results, number_of_groups):
 @cli.command('show')
 @processor
 def show(results):
-    ic(results)
+    #ic(results)
+    ic()
     #PP.pprint(results)
