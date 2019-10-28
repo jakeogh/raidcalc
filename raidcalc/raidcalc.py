@@ -107,12 +107,12 @@ def group(togroup, group_size):
 
 
 def raid(toraid, group_size, level):
-    groups_to_mirror = group(toraid, group_size)
-    ic(groups_to_mirror)
+    groups = group(toraid, group_size)
+    ic(groups)
     if level == "mirror":
-        raided = [group[0] for group in groups_to_mirror]
+        raided = [group[0] for group in groups]
     elif level == "stripe":
-        raided = [sum(group) for group in result]
+        raided = [sum(group) for group in groups]
     else:
         raise ValueError("unknown RAID level:", level)
     ic(raided)
@@ -130,7 +130,7 @@ def mirror(results, group_size):
         #ic(groups_to_mirror)
         #mirrored = [group[0] for group in groups_to_mirror]
         #ic(mirrored)
-        mirrored = raid(toraid=result, group_size=group_size, real_level=0)
+        mirrored = raid(toraid=result, group_size=group_size, level="mirror")
         yield mirrored
 
 
