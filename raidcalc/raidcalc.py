@@ -87,8 +87,8 @@ def define(device_size_tb, device_count, verbose):
     if verbose:
         global VERBOSE
         VERBOSE = True
-    if not device_count % 2 == 0:
-        raise ValueError("device_count must be even")
+    #if not device_count % 2 == 0:
+    #    raise ValueError("device_count must be even")
     result = [device_size_tb] * device_count
     for define in [result]:
         ic(define)
@@ -116,8 +116,6 @@ def raid(toraid, group_size, level):
         ic(grouped)
     if level == "mirror":
         if dev_count < 2:
-            # pylint: disable=W0101
-            # W0101: Unreachable code (unreachable)
             raise ValueError("mirror requires >= 2 devices")
         raided = [group[0] for group in grouped]
     elif level == "stripe":
