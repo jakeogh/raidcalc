@@ -22,9 +22,9 @@ CONTEXT_SETTINGS = \
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
 def divisors(n):
     divs = [1]
-    for i in range(2,int(math.sqrt(n))+1):
-        if n%i == 0:
-            divs.extend([i,int(n/i)])
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            divs.extend([i, int(n / i)])
     divs.extend([n])
     return list(set(divs))
 
@@ -128,7 +128,7 @@ def raid(toraid, group_size, level):
 
 
 @cli.command('mirror')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True)
 @processor
 def mirror(results, group_size):
     for result in results:
@@ -138,7 +138,7 @@ def mirror(results, group_size):
 
 
 @cli.command('stripe')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True)
 @processor
 def stripe(results, group_size):
     for result in results:
@@ -158,7 +158,7 @@ def z1(results, group_size):
 
 
 @cli.command('z2')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True)
 @processor
 def z2(results, group_size):
     for result in results:
@@ -168,7 +168,7 @@ def z2(results, group_size):
 
 
 @cli.command('z3')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=True)
 @processor
 def z3(results, group_size):
     for result in results:
