@@ -7,7 +7,7 @@ from shutil import get_terminal_size
 import click
 from colorama import Fore
 from icecream import ic
-ic.configureOutput(includeContext=True)
+#ic.configureOutput(includeContext=True)
 ic.lineWrapWidth, _ = get_terminal_size((80, 20))
 #ic.disable()
 
