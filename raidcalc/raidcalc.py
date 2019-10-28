@@ -158,7 +158,11 @@ def mirror(results, group_size):
 @processor
 def stripe(results, group_size):
     for result in results:
-        striped = raid(toraid=result, group_size=group_size, level="stripe")
+        try:
+            striped = raid(toraid=result, group_size=group_size, level="stripe")
+        except ValueError as e:
+            print(Fore.RED + str(e))
+            quit(1)
         ic(striped)
         yield striped
 
@@ -168,7 +172,11 @@ def stripe(results, group_size):
 @processor
 def z1(results, group_size):
     for result in results:
-        raidz1 = raid(toraid=result, group_size=group_size, level="z1")
+        try:
+            raidz1 = raid(toraid=result, group_size=group_size, level="z1")
+        except ValueError as e:
+            print(Fore.RED + str(e))
+            quit(1)
         ic(raidz1)
         yield raidz1
 
@@ -178,7 +186,11 @@ def z1(results, group_size):
 @processor
 def z2(results, group_size):
     for result in results:
-        raidz2 = raid(toraid=result, group_size=group_size, level="z2")
+        try:
+            raidz2 = raid(toraid=result, group_size=group_size, level="z2")
+        except ValueError as e:
+            print(Fore.RED + str(e))
+            quit(1)
         ic(raidz2)
         yield raidz2
 
@@ -188,15 +200,19 @@ def z2(results, group_size):
 @processor
 def z3(results, group_size):
     for result in results:
-        raidz3 = raid(toraid=result, group_size=group_size, level="z3")
+        try:
+            raidz3 = raid(toraid=result, group_size=group_size, level="z3")
+        except ValueError as e:
+            print(Fore.RED + str(e))
+            quit(1)
         ic(raidz3)
         yield raidz3
 
 
-@cli.command('show')
-@processor
-def show(results):
-    for shown in results:
-        #ic(result)
-        ic(shown)
-        yield shown
+#@cli.command('show')
+#@processor
+#def show(results):
+#    for shown in results:
+#        #ic(result)
+#        ic(shown)
+#        yield shown
