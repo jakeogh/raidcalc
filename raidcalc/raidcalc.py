@@ -118,24 +118,24 @@ def raid(toraid, group_size, level):
         ic(grouped)
     if level == "mirror":
         if dev_count < 2:
-            raise ValueError("mirror requires >= 2 devices")
+            raise ValueError("Error: mirror requires >= 2 devices")
         raided = [group[0] for group in grouped]
     elif level == "stripe":
         raided = [sum(group) for group in grouped]
     elif level == "z1":
         if dev_count < 3:
-            raise ValueError("z1 requires >= 3 devices")
+            raise ValueError("Error: z1 requires >= 3 devices")
         raided = [sum(group[:-1]) for group in grouped]
     elif level == "z2":
         if dev_count < 4:
-            raise ValueError("z2 requires >= 4 devices")
+            raise ValueError("Error: z2 requires >= 4 devices")
         raided = [sum(group[:-2]) for group in grouped]
     elif level == "z3":
         if dev_count < 5:
-            raise ValueError("z3 requires >= 5 devices")
+            raise ValueError("Error: z3 requires >= 5 devices")
         raided = [sum(group[:-3]) for group in grouped]
     else:
-        raise ValueError("unknown RAID level:", level)
+        raise NotImplementedError("Error: unknown RAID level:", level)
     return raided
 
 
