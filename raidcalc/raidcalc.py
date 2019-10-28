@@ -91,11 +91,20 @@ def group(results, number_of_groups):
         yield new_result
 
 
+@cli.command('mirror')
+@processor
+def mirror(results):
+    for result in results:
+        ic(result)
+        new_result = [group[0] for group in result]
+        ic(new_result)
+        yield new_result
+
+
 @cli.command('show')
 @processor
 def show(results):
     for result in results:
         #ic(result)
         ic(result)
-    quit(1)
-    #PP.pprint(results)
+        yield result
