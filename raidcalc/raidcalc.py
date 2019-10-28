@@ -102,6 +102,8 @@ def group(togroup, group_size):
     if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
+    if not group_size:
+        group_size = dev_count
     grouped = list(partition(group_size, togroup))
     #ic(grouped)
     return grouped
@@ -121,7 +123,7 @@ def raid(toraid, group_size, level):
 
 
 @cli.command('mirror')
-@click.argument("group_size", nargs=1, required=True, type=int)
+@click.argument("group_size", nargs=1, required=False, type=int)
 @processor
 def mirror(results, group_size):
     for result in results:
@@ -131,8 +133,9 @@ def mirror(results, group_size):
 
 
 @cli.command('stripe')
+@click.argument("group_size", nargs=1, required=True, type=int)
 @processor
-def stripe(results):
+def stripe(results, group_size):
     for result in results:
         striped = raid(toraid=result, group_size=group_size, level="stripe")
         ic(striped)
