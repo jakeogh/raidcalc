@@ -82,4 +82,3 @@ def group(results, number_of_groups):
 @processor
 def show(results):
     PP.pprint(results)
-
