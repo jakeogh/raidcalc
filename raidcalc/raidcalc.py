@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import shutil
-import pprint
 import math
 from functools import update_wrapper
 from icecream import ic
@@ -11,8 +10,7 @@ try:
 except ModuleNotFoundError:
     from cytoolz.itertoolz import partition
 
-
-PP = pprint.PrettyPrinter(indent=4)
+VERBOSE = False
 
 CONTEXT_SETTINGS = \
     dict(help_option_names=['--help'],
@@ -30,9 +28,8 @@ def divisors(n):
 
 
 @click.group(chain=True)
-@click.option("--verbose")
 @click.pass_context
-def cli(ctx, verbose):
+def cli(ctx):
     pass
 
 
@@ -84,8 +81,12 @@ def generator(f):
 @cli.command('define')
 @click.argument('device-size-TB', required=True, nargs=1, type=int)
 @click.argument('device-count', required=True, nargs=1, type=int)
+@click.option("--verbose")
 @generator
-def define(device_size_tb, device_count):
+def define(device_size_tb, device_count, verbose):
+    if verbose:
+        global VERBOSE
+        VERBOSE = True
     if not device_count % 2 == 0:
         raise ValueError("device_count must be even")
     result = [device_size_tb] * device_count
@@ -109,7 +110,9 @@ def group(togroup, group_size):
 
 def raid(toraid, group_size, level):
     grouped = group(toraid, group_size)
-    ic(grouped)
+    global VERBOSE
+    if VERBOSE:
+        ic(grouped)
     if level == "mirror":
         raided = [group[0] for group in grouped]
     elif level == "stripe":
