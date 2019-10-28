@@ -71,8 +71,8 @@ def generator(f):
 @click.argument('device-size-TB', required=True, nargs=1, type=int)
 @click.argument('device-count', required=True, nargs=1, type=int)
 @generator
-def define(device_size_TB, device_count):
-    return [device_size_TB] * device_count
+def define(device_size_tb, device_count):
+    return [device_size_tb] * device_count
 
 
 @cli.command('group')
