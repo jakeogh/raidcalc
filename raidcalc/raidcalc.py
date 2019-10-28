@@ -5,6 +5,7 @@ import sys
 import math
 from functools import update_wrapper
 from icecream import ic
+from colorama import Fore
 import click
 try:
     from cytoolz.itertoolz import partition
@@ -89,7 +90,7 @@ def define(device_size_tb, device_count, verbose):
         global VERBOSE
         VERBOSE = True
     if not device_count % 2 == 0:
-        print("Note: device_count is not even.", file=sys.stderr)
+        print(Fore.RED + "Warning: device_count is not even.", file=sys.stderr)
     result = [device_size_tb] * device_count
     for define in [result]:
         ic(define)
