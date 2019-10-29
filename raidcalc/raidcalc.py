@@ -7,6 +7,7 @@ from shutil import get_terminal_size
 import click
 from colorama import Fore
 from icecream import ic
+import attr
 #ic.configureOutput(includeContext=True)
 ic.lineWrapWidth, _ = get_terminal_size((80, 20))
 #ic.disable()
@@ -14,9 +15,21 @@ ic.lineWrapWidth, _ = get_terminal_size((80, 20))
 try:
     from cytoolz.itertoolz import partition
 except ModuleNotFoundError:
-    from cytoolz.itertoolz import partition
+    from cytoolz.itertoolz import partition  # weird
 
 VERBOSE = False
+
+
+# https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
+@attr.s(auto_attribs=True)
+class Drive():
+    model: str = "unknown"
+    rpm: int = 7200
+    mtbf: int = 145000  # conservative real-world https://wintelguy.com/raidmttdl.pl
+    lse: float = 1e-17  # Latent Sector Error (LSE)
+    ttr: int = 0        # time (hours) to replace drive
+    rebuild_faulure_rate: float = 0.05      # 5% probability of a single drive failing during a rebuild
+    capacity: int       # bytes
 
 
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
@@ -99,10 +112,6 @@ def define(device_size_tb, device_count, verbose):
 
 def group(togroup, group_size):
     dev_count = len(togroup)
-    if group_size == "all":
-        group_size = dev_count
-    else:
-        group_size = int(group_size)
     if not dev_count % group_size == 0 or group_size > dev_count:
         msg = "Possible group sizes for {} devices are: {}".format(dev_count, divisors(dev_count)[:-1])
         raise ValueError(msg)
@@ -112,6 +121,10 @@ def group(togroup, group_size):
 
 def raid(toraid, group_size, level):
     dev_count = len(toraid)
+    if group_size == "all":
+        group_size = dev_count
+    else:
+        group_size = int(group_size)
     grouped = group(toraid, group_size)
     global VERBOSE
     if VERBOSE:
@@ -131,7 +144,7 @@ def raid(toraid, group_size, level):
             raise ValueError("Error: z2 requires >= 4 devices")
         raided = [sum(group[:-2]) for group in grouped]
     elif level == "z3":
-        if dev_count < 5:
+        if (dev_count or group_size) < 5:
             raise ValueError("Error: z3 requires >= 5 devices")
         raided = [sum(group[:-3]) for group in grouped]
     else:
