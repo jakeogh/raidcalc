@@ -166,29 +166,31 @@ def raid(toraid, group_size, level):
             raise ValueError("Error: mirror requires >= 2 devices")
         if group_size < 2:
             raise ValueError("Error: mirrored groups require >= 2 devices")
-        raided = [capacity(group, level) for group in grouped]
-    elif level == "stripe":
-        raided = [capacity(group, level) for group in grouped]
+    #    raided = [capacity(group, level) for group in grouped]
+    #elif level == "stripe":
+    #    raided = [capacity(group, level) for group in grouped]
     elif level == "z1":
         if dev_count < 3:
             raise ValueError("Error: z1 requires >= 3 devices")
         if group_size < 3:
             raise ValueError("Error: z1 groups require >= 3 devices")
-        raided = [capacity(group, level) for group in grouped]
+    #    raided = [capacity(group, level) for group in grouped]
     elif level == "z2":
         if dev_count < 4:
             raise ValueError("Error: z2 requires >= 4 devices")
         if group_size < 4:
             raise ValueError("Error: z2 groups require >= 4 devices")
-        raided = [capacity(group, level) for group in grouped]
+    #    raided = [capacity(group, level) for group in grouped]
     elif level == "z3":
         if dev_count < 5:
             raise ValueError("Error: z3 requires >= 5 devices")
         if group_size < 5:
             raise ValueError("Error: z3 groups require >= 5 devices")
-        raided = [capacity(group, level) for group in grouped]
+    #    raided = [capacity(group, level) for group in grouped]
     else:
         raise NotImplementedError("Error: unknown RAID level:", level)
+
+    raided = [capacity(group, level) for group in grouped]
     return raided
 
 
