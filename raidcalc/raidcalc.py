@@ -167,7 +167,8 @@ def raid(toraid, group_size, level):
         if group_size < 2:
             raise ValueError("Error: mirrored groups require >= 2 devices")
     #    raided = [capacity(group, level) for group in grouped]
-    #elif level == "stripe":
+    elif level == "stripe":
+        pass
     #    raided = [capacity(group, level) for group in grouped]
     elif level == "z1":
         if dev_count < 3:
