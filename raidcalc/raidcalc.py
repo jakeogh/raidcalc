@@ -125,6 +125,7 @@ def raid(toraid, group_size, level):
         group_size = dev_count
     else:
         group_size = int(group_size)
+    ic(group_size)
     grouped = group(toraid, group_size)
     global VERBOSE
     if VERBOSE:
