@@ -20,18 +20,29 @@ except ModuleNotFoundError:
 VERBOSE = False
 
 
-# not used yet
-# https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
-@attr.s(auto_attribs=True)
-class Drive(int):
-    capacity: int       # TB
-    model: str = "unknown"
-    rpm: int = 7200
-    mtbf: int = 145000  # conservative real-world https://wintelguy.com/raidmttdl.pl
-    lse: float = 1e-17  # Latent Sector Error (LSE)
-    ttr: int = 0        # time (hours) to replace drive
-    rebuild_faulure_rate: float = 0.05      # 5% probability of a single drive failing during a rebuild
-
+## not used yet
+## https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
+#@attr.s(auto_attribs=True)
+#class DriveGroup():
+#    members: list       # list of self's
+#    level: str          # could use validator
+#    #model: str = "unknown"
+#    #rpm: int = 7200
+#    mtbf: int = 145000  # conservative real-world https://wintelguy.com/raidmttdl.pl
+#    lse: float = 1e-17  # Latent Sector Error (LSE)
+#    ttr: int = 0        # time (hours) to replace drive
+#    rebuild_faulure_rate: float = 0.05      # 5% probability of a single drive failing during a rebuild
+#
+#    def capacity(self):
+#        return self.members * self.capacity
+#
+#    def add(self, drive_group, level):
+#        #assert self.level == drive_group.level  # TODO
+#        #assert self.members == drive_group.members  # TODO
+#        capcity = self.capacity + drive_group.capacity
+#        model = self.model
+#
+#        return
 
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
 def divisors(n):
@@ -105,8 +116,8 @@ def define(device_size_tb, device_count, verbose):
         VERBOSE = True
     if not device_count % 2 == 0:
         print(Fore.RED + "Warning: device_count is not even.", file=sys.stderr)
-    #result = [device_size_tb] * device_count
-    result = [Drive(capacity=device_size_tb)] * device_count
+    result = [device_size_tb] * device_count
+    #result = [DriveGroup(capacity=device_size_tb)] * device_count
     for define in [result]:
         ic(define)
         yield define
