@@ -23,13 +23,13 @@ VERBOSE = False
 # https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
 @attr.s(auto_attribs=True)
 class Drive():
+    capacity: int       # bytes
     model: str = "unknown"
     rpm: int = 7200
     mtbf: int = 145000  # conservative real-world https://wintelguy.com/raidmttdl.pl
     lse: float = 1e-17  # Latent Sector Error (LSE)
     ttr: int = 0        # time (hours) to replace drive
     rebuild_faulure_rate: float = 0.05      # 5% probability of a single drive failing during a rebuild
-    capacity: int       # bytes
 
 
 #https://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
@@ -136,11 +136,11 @@ def raid(toraid, group_size, level):
     elif level == "stripe":
         raided = [sum(group) for group in grouped]
     elif level == "z1":
-        if dev_count < 3:
+        if (dev_count or group_size) < 3:
             raise ValueError("Error: z1 requires >= 3 devices")
         raided = [sum(group[:-1]) for group in grouped]
     elif level == "z2":
-        if dev_count < 4:
+        if (dev_count or group_size) < 4:
             raise ValueError("Error: z2 requires >= 4 devices")
         raided = [sum(group[:-2]) for group in grouped]
     elif level == "z3":
