@@ -20,6 +20,7 @@ except ModuleNotFoundError:
 VERBOSE = False
 
 
+# not used yet
 # https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
 @attr.s(auto_attribs=True)
 class Drive():
