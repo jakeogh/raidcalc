@@ -136,7 +136,7 @@ def raid(toraid, group_size, level):
     dev_count = len(toraid)
     if group_size == "all":
         group_size = dev_count
-    elif group_size == "split":
+    elif group_size in ("split", "half"):
         if not dev_count % 2 == 0:
             raise ValueError("Error: split requires an even number of devices")
         group_size = int(dev_count / 2)
