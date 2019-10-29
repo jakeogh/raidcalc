@@ -24,7 +24,7 @@ VERBOSE = False
 # https://hardforum.com/threads/zfs-raid-z3-raidz3-recommended-drive-configuration.1621123/
 @attr.s(auto_attribs=True)
 class Drive():
-    capacity: int       # bytes
+    capacity: int       # TB
     model: str = "unknown"
     rpm: int = 7200
     mtbf: int = 145000  # conservative real-world https://wintelguy.com/raidmttdl.pl
@@ -105,7 +105,8 @@ def define(device_size_tb, device_count, verbose):
         VERBOSE = True
     if not device_count % 2 == 0:
         print(Fore.RED + "Warning: device_count is not even.", file=sys.stderr)
-    result = [device_size_tb] * device_count
+    #result = [device_size_tb] * device_count
+    result = [Drive(capacity=device_size_tb)] * device_count
     for define in [result]:
         ic(define)
         yield define
