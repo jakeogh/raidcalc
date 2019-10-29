@@ -132,7 +132,7 @@ def group(togroup, group_size):
     return grouped
 
 
-def capcaity(group, level):
+def capacity(group, level):
     if level == "mirror":
         return group[0]
     elif level == "stripe":
