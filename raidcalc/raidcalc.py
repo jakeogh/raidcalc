@@ -125,7 +125,6 @@ def raid(toraid, group_size, level):
         group_size = dev_count
     else:
         group_size = int(group_size)
-    ic(group_size)
     grouped = group(toraid, group_size)
     global VERBOSE
     if VERBOSE:
@@ -145,6 +144,7 @@ def raid(toraid, group_size, level):
             raise ValueError("Error: z2 requires >= 4 devices")
         raided = [sum(group[:-2]) for group in grouped]
     elif level == "z3":
+        ic(group_size)
         if (dev_count or group_size) < 5:
             raise ValueError("Error: z3 requires >= 5 devices")
         raided = [sum(group[:-3]) for group in grouped]
