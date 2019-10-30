@@ -200,9 +200,9 @@ def raid(toraid, group_size, level):
     else:
         group_size = int(group_size)
     grouped = group(toraid, group_size)
-    global VERBOSE
-    if VERBOSE:
-        ic(grouped)
+    #global VERBOSE
+    #if VERBOSE:
+    ic(grouped)
     check_raid(dev_count, group_size, level)
     raided = [capacity(group, level) for group in grouped]
     return raided
