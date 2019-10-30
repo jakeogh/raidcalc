@@ -106,14 +106,16 @@ def generator(f):
 
 
 @cli.command('define')
+@click.argument('device-count', required=True, nargs=1, type=str)
 @click.argument('device-size-TB', required=True, nargs=1, type=int)
-@click.argument('device-count', required=True, nargs=1, type=int)
 @click.option("--verbose", is_flag=True)
 @generator
 def define(device_size_tb, device_count, verbose):
     if verbose:
         global VERBOSE
         VERBOSE = True
+    if not device_count.endswith('x'):
+        raise ValueError("device_count must end with an `x` like `16x`")
     if not device_count % 2 == 0:
         print(Fore.RED + "Warning: device_count is not even.", file=sys.stderr)
     result = [device_size_tb] * device_count
