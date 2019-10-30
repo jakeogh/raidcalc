@@ -6,6 +6,7 @@ from functools import update_wrapper
 from shutil import get_terminal_size
 import click
 from colorama import Fore
+from colorama import Style
 from icecream import ic
 import attr
 #ic.configureOutput(includeContext=True)
@@ -18,6 +19,16 @@ except ModuleNotFoundError:
     from cytoolz.itertoolz import partition  # weird
 
 VERBOSE = False
+
+
+def eprint(*args, **kwargs):
+    print(Fore.RED, file=sys.stderr, end='')
+    if 'end' in kwargs.keys():
+        print(*args, file=sys.stderr, **kwargs)
+        print(Style.RESET_ALL, file=sys.stderr, end='')
+    else:
+        print(*args, file=sys.stderr, **kwargs, end='')
+        print(Style.RESET_ALL, file=sys.stderr)
 
 
 ## not used yet
@@ -115,9 +126,11 @@ def define(device_size_tb, device_count, verbose):
         global VERBOSE
         VERBOSE = True
     if not device_count.endswith('x'):
-        raise ValueError("device_count must end with an `x` like `16x`")
+        eprint(ValueError("device_count must end with an `x` like `16x`"))
+        quit(1)
+    device_count = int(device_count[:-1])
     if not device_count % 2 == 0:
-        print(Fore.RED + "Warning: device_count is not even.", file=sys.stderr)
+        eprint("Warning: device_count is not even.")
     result = [device_size_tb] * device_count
     #result = [DriveGroup(capacity=device_size_tb)] * device_count
     for define in [result]:
@@ -203,7 +216,7 @@ def mirror(results, group_size):
         try:
             mirrored = raid(toraid=result, group_size=group_size, level="mirror")
         except ValueError as e:
-            print(Fore.RED + str(e))
+            eprint(str(e))
             quit(1)
         ic(mirrored)
         yield mirrored
@@ -217,7 +230,7 @@ def stripe(results, group_size):
         try:
             striped = raid(toraid=result, group_size=group_size, level="stripe")
         except ValueError as e:
-            print(Fore.RED + str(e))
+            eprint(str(e))
             quit(1)
         ic(striped)
         yield striped
@@ -231,7 +244,7 @@ def z1(results, group_size):
         try:
             raidz1 = raid(toraid=result, group_size=group_size, level="z1")
         except ValueError as e:
-            print(Fore.RED + str(e))
+            eprint(str(e))
             quit(1)
         ic(raidz1)
         yield raidz1
@@ -245,7 +258,7 @@ def z2(results, group_size):
         try:
             raidz2 = raid(toraid=result, group_size=group_size, level="z2")
         except ValueError as e:
-            print(Fore.RED + str(e))
+            eprint(str(e))
             quit(1)
         ic(raidz2)
         yield raidz2
@@ -259,7 +272,7 @@ def z3(results, group_size):
         try:
             raidz3 = raid(toraid=result, group_size=group_size, level="z3")
         except ValueError as e:
-            print(Fore.RED + str(e))
+            eprint(str(e))
             quit(1)
         ic(raidz3)
         yield raidz3
