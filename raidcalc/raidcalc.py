@@ -162,29 +162,53 @@ def capacity(group, level):
         raise NotImplementedError("Error: unknown RAID level:", level)
 
 
+def minimum_members(level):
+    if level == "mirror":
+        return 2
+    elif level == "stripe":
+        return 1
+    elif level == "z1":
+        return 3
+    elif level == "z2":
+        return 4
+    elif level == "z3":
+        return 5
+    else:
+        raise NotImplementedError("Error: unknown RAID level:", level)
+
+
+def possible_group_sizes(dev_count, level):
+    min_members = minimum_members(level)
+    all_divisors = divisors(dev_count)[:-1]
+    possible_divisors = [ x for x in all_divisors if x >= min_members]
+    msg = "Possible {} group sizes for {} devices are: {}".format(level, dev_count, possible_divisors)
+    return msg
+
+
 def check_raid(dev_count, group_size, level):
+    msg = possible_group_sizes(dev_count, level)
     if level == "mirror":
         if dev_count < 2:
             raise ValueError("Error: mirror requires >= 2 devices")
         if group_size < 2:
-            raise ValueError("Error: mirrored groups require >= 2 devices")
+            raise ValueError("Error: mirrored groups require >= 2 devices\n" + msg)
     elif level == "stripe":
         pass
     elif level == "z1":
         if dev_count < 3:
             raise ValueError("Error: z1 requires >= 3 devices")
         if group_size < 3:
-            raise ValueError("Error: z1 groups require >= 3 devices")
+            raise ValueError("Error: z1 groups require >= 3 devices\n" + msg)
     elif level == "z2":
         if dev_count < 4:
             raise ValueError("Error: z2 requires >= 4 devices")
         if group_size < 4:
-            raise ValueError("Error: z2 groups require >= 4 devices")
+            raise ValueError("Error: z2 groups require >= 4 devices\n" + msg)
     elif level == "z3":
         if dev_count < 5:
             raise ValueError("Error: z3 requires >= 5 devices")
         if group_size < 5:
-            raise ValueError("Error: z3 groups require >= 5 devices")
+            raise ValueError("Error: z3 groups require >= 5 devices\n" + msg)
     else:
         raise NotImplementedError("Error: unknown RAID level:", level)
 
